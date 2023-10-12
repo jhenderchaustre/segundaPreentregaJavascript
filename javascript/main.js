@@ -15,56 +15,32 @@ function calcularPrecioConIVA(total) {
 
 let inicio = prompt("Bienvenido, ¿estás listo para comenzar tu compra?");
 
-while (inicio !== "si" && inicio !== "no") {
+while (inicio.toLowerCase() !== "si" && inicio.toLowerCase() !== "no") {
     alert("Por favor, indícanos si o no");
     inicio = prompt("Por favor, indícanos si o no");
 }
 
-if (inicio == "si") {
+if (inicio.toLowerCase() === "si") {
     alert("¡Buena elección! Este es nuestro catálogo de productos");
     let productos = articulos.map((articulo) => articulo.nombre + " $" + articulo.precio + " + iva");
     alert(productos.join("\n"));
-} else if (inicio == "no") {
-    alert("Muchas gracias por visitar nuestra tienda en línea, te esperamos pronto!");
-}
 
-while (inicio !== "no") {
-    let articulo = prompt("Agrega un artículo al carrito");
-    let precio = 0;
+    while (inicio.toLowerCase() !== "no") {
+        let articulo = prompt("Agrega un artículo al carrito");
+        let precio = 0;
 
-    if (articulo == "remera" || articulo == "anteojos" || articulo == "gorra" || articulo == "zapatillas" || articulo == "buzo") {
-        switch (articulo) {
-            case "remera":
-                precio = 5000;
-                break;
-            case "anteojos":
-                precio = 8000;
-                break;
-            case "gorra":
-                precio = 3500;
-                break;
-            case "zapatillas":
-                precio = 25000;
-                break;
-            case "buzo":
-                precio = 10500;
-                break;
-            default:
-                break;
+        const productoEncontrado = articulos.find(item => item.nombre === articulo);
+        if (productoEncontrado) {
+            let unidades = parseInt(prompt("Agrega la cantidad de unidades que deseas al carrito"));
+            carrito.push({ articulo, unidades, precio: productoEncontrado.precio });
+            console.log(carrito);
+        } else {
+            alert("Disculpa, no tenemos ese artículo");
         }
 
-        let unidades = parseInt(prompt("Agrega la cantidad de unidades que deseas al carrito"));
-
-        carrito.push({ articulo, unidades, precio });
-        console.log(carrito);
-
         inicio = prompt("¿Quieres agregar otro artículo?");
-    } else {
-        alert("Disculpa, no tenemos ese artículo");
     }
-}
 
-if (inicio === "no") {
     alert("Presiona aceptar para continuar");
     carrito.forEach((item) => {
         console.log(`Artículo: ${item.articulo}, Unidades: ${item.unidades}, Precio: $${item.precio}`);
@@ -74,4 +50,6 @@ if (inicio === "no") {
     const precioFinalConIVA = calcularPrecioConIVA(total);
     console.log(`El precio final con IVA es: $${precioFinalConIVA}`);
     alert(`Hemos procesado tu compra, el total a pagar es: $${precioFinalConIVA} ¡Muchas gracias por elegirnos!`);
+} else {
+    alert("Muchas gracias por visitar nuestra tienda en línea, te esperamos pronto!");
 }
